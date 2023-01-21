@@ -64,7 +64,7 @@ Clone or download the project and navigate into it:
 cd ~; git clone https://github.com/pwnlog/Daku && cd Daku && chmod +x install.sh
 ```
 
-**Warning**: If you're copying these files from Windows system do make sure that is Unix format:
+> **Warning**: If you're copying these files from a Windows system do make sure that is Unix format:
 
 ```
 find . -type f -print0 | xargs -0 dos2unix
