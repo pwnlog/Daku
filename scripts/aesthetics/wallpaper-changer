@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+WAL=$(find ~/Pictures/Wallpapers/ -type f -iname '*.PNG' -o -iname '*.JPG' | shuf -n 1)
+killall feh
+wait 
+feh --bg-fill $WAL

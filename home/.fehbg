@@ -1,0 +1,2 @@
+#!/bin/sh
+feh --no-fehbg --bg-fill '/home/kali/Pictures/Wallpapers/pwnlog2.png' 

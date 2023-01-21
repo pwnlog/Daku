@@ -1,0 +1,9 @@
+#!/bin/bash
+
+target=$(cat ~/.config/target)
+
+if [ $target ]; then
+    echo "什 $target"
+else
+    echo "什 NO TARGET"
+fi
