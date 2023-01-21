@@ -305,6 +305,7 @@ sudo cp -r config /root/.config
 
 # Install home configuration files
 cp $CWD/home/.fehbg ~/
+sudo cp $CWD/home/.fehbg /root
 cp $CWD/home/.zshrc ~/
 cp $CWD/home/.p10k.zsh ~/
 sudo cp $CWD/home/.p10k.zsh /root
@@ -336,6 +337,10 @@ sudo cp scripts/system/* /usr/local/bin/
 # Polybar permissions
 chmod -R 755 ~/.config/polybar 
 sudo chmod -R 755 /root/.config/polybar
+
+# Feh permissinons
+chmod +x ~/.fehbg
+sudo chmod +x /root/.fehbg
 
 # Nsxiv permissions
 chmod +x ~/.config/nsxiv/exec/key-handler 
