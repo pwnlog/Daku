@@ -8,7 +8,7 @@
 <!-- TOC -->
 <p align="center">
 <a href="#snowflake-information"><img width="150px" style="padding: 0 10px;" src="assets/images/button-info.png"></a>
-<a href="#setup"><img width="150px" style="padding: 0 10px;" src="assets/images/button-setup.png"></a>
+<a href="#hammer_and_wrench-setup"><img width="150px" style="padding: 0 10px;" src="assets/images/button-setup.png"></a>
 </p>
 
 <!-- RICE PREVIEW -->
@@ -56,7 +56,7 @@ Daku is a pen testing Linux configuration with dark colors.
 </table>
 </div>
 
-# Setup
+# :hammer_and_wrench: Setup
 
 Clone or download the project and navigate into it:
 
@@ -92,7 +92,7 @@ Congratulations, now you have Daku installed in your system:
 
 ![daku](assets/images/daku-welcome.png)
 
-# Development
+# :hearts: Development
 
 While this configuration is pretty awesome, it's still far from over.
 
