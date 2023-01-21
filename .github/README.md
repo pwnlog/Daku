@@ -64,7 +64,7 @@ Clone or download the project and navigate into it:
 cd ~; git clone https://github.com/pwnlog/Daku && cd Daku && chmod +x install.sh
 ```
 
-> **Warning**: If you're copying these files from a Windows system do make sure that is Unix format:
+> **Warning**: If you're copying these files from a Windows system do make sure that is formatted for Unix:
 
 ```
 find . -type f -print0 | xargs -0 dos2unix
@@ -84,7 +84,7 @@ Reboot the system:
 reboot
 ```
 
-Under display environemnt, select `awesome` as your window manager and log in:
+Select `awesome` as your window manager and log in:
 
 ![lightdm-awesome](assets/images/lightdm-awesome.png)
 
