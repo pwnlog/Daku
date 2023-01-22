@@ -1,4 +1,3 @@
 #!/bin/bash
 
-target=$(cat ~/.config/target)
-echo -n "$target" | xclip -sel clipboard
+echo -n $(cat ~/.config/target) | xclip -sel clipboard
