@@ -1,6 +1,28 @@
-#!/usr/bin/bash
+#! /bin/bash
+ 
+# Read wallpapers
+WALLS=(~/Pictures/Wallpapers/*)
 
-WAL=$(find ~/Pictures/Wallpapers/ -type f -iname '*.PNG' -o -iname '*.JPG' | shuf -n 1)
-killall feh
-wait 
-feh --bg-fill $WAL
+# Select random wallpaper
+function select_wallpaper() {
+	WALLPAPER=$(printf "%s\n" "${WALLS[RANDOM % ${#WALLS[@]}]}")
+}
+
+# View previous wallpaper
+PREV=$(cat /dev/shm/previous.txt 2>/dev/null) 
+
+# Check if the random wallpaper is the same as the previous wallpaper
+# If it's the same then select another wallpaper
+while [[ "$WALLPAPER" == "$PREV" || "$WALLPAPER" == "" ]]
+do
+	#echo "[-] Wallpaper was repeated or is blank"
+	select_wallpaper
+done
+
+# Store the random wallpaper in a file for validation
+echo $WALLPAPER > /dev/shm/previous.txt
+
+killall feh 2>/dev/null
+
+# Set wallpaper
+feh --bg-fill $WALLPAPER
