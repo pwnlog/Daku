@@ -485,7 +485,6 @@ awful.keyboard.append_global_keybindings({
 	),
 	
 	-- Change Corners Windows and Polybar
-	--[[
     awful.key(
 	{modkey, "Mod1" },
 	"b",
@@ -494,7 +493,6 @@ awful.keyboard.append_global_keybindings({
     end,
 	{description = "change windows corners (square or rounded)", group = "scripts"}
 	),
-    --]]
 	
 	-- Change Wallpapers On The Fly
 	awful.key(

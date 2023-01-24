@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+
+POLYBAR="$HOME/.config/polybar/config.ini"
+ROFI="$HOME/.config/rofi/colors.rasi"
+KITTY="$HOME/.config/kitty/kitty.conf"
+
+# Daku Colors
+background=#14181d
+background_alt=#1e252c
+foreground=#C5C8C6
+primary=#8ca1a5
+secondary=#7eaeb1
+alert=#A54242
+disabled=#707880
+white=#FFFFFF
+
+# polybar
+sed -i -e "s/background = #.*/background = $background/g" $POLYBAR
+sed -i -e "s/background-alt = #.*/background-alt = $background_alt/g" $POLYBAR
+sed -i -e "s/foreground = #.*/foreground = $foreground/g" $POLYBAR
+sed -i -e "s/primary = #.*/primary = $primary/g" $POLYBAR
+sed -i -e "s/secondary = #.*/secondary = $secondary/g" $POLYBAR
+sed -i -e "s/alert = #.*/alert = $alert/g" $POLYBAR
+sed -i -e "s/disabled = #.*/disabled = $disabled/g" $POLYBAR
+sed -i -e "s/white = #.*/white = $white/g" $POLYBAR
+
+# rofi
+cat > $ROFI <<- EOF
+/* COLORS */
+
+* {
+background:    		${background};
+background-alt:   	${background_alt};
+foreground:   		${foreground};
+primary:   			${primary};
+secondary:    		${secondary};
+alert:   			${alert};
+disabled: 			${white};
+}
+EOF
+
+# kitty
+sed -i -e "s/active_tab_background   #.*/active_tab_background   $primary/g" $KITTY
+sed -i -e "s/inactive_tab_background #.*/inactive_tab_background $secondary/g" $KITTY
+sed -i -e "s/tab_bar_background #.*/tab_bar_background $background/g" $KITTY
+sed -i -e "s/foreground #.*/foreground $foreground/g" $KITTY
+sed -i -e "s/background #.*/background $background/g" $KITTY
+
+polybar-msg cmd restart

@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+
+# Variables
+COMPOSITOR="$HOME/.config/picom/picom.conf"
+BAR="$HOME/.config/polybar/config.ini"
+COM_CORNER=$(grep 'corner-radius = 15.0' $COMPOSITOR)
+BAR_CORNER=$(grep -E 'radius = 10' $BAR)
+STRAIGHT_COMPOSITOR="corner-radius = 0"
+STRAIGHT_BAR="radius = 0"
+ROUNDED_COMPOSITOR="corner-radius = 15.0"
+ROUNDED_BAR="radius = 10"
+
+function straight_or_rounded(){
+	# Straight
+	if echo $COM_CORNER $BAR_CORNER | grep -qE 'corner-radius = 15|radius = 10'; then
+		sed -ie "s/$ROUNDED_COMPOSITOR/$STRAIGHT_COMPOSITOR/g" $COMPOSITOR
+        sed -ie "s/$ROUNDED_BAR/$STRAIGHT_BAR/g" $BAR
+		
+	# Rounded
+	else
+		sed -ie "s/$STRAIGHT_COMPOSITOR/$ROUNDED_COMPOSITOR/g" $COMPOSITOR
+        sed -ie "s/$STRAIGHT_BAR/$ROUNDED_BAR/g" $BAR
+	fi	
+}
+
+if ! pgrep -x "picom" > /dev/null
+then
+    picom --config ~/.config/picom/picom.conf -b
+fi
+
+straight_or_rounded

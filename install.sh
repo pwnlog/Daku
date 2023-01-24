@@ -186,9 +186,14 @@ if [ $? != 0 ]; then
     exit
 fi
 
-# Install Picom
-unzip -o bins/picom/picomv10.2.zip  
-cd picom-10.2
+# Install Picom (fix black border)
+wget "https://github.com/yshui/picom/archive/refs/tags/v9.1.zip" -O picomv9.1.zip
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'wget \"https://github.com/yshui/picom/archive/refs/tags/v9.1.zip\" -O picomv9.1.zip' $RESET has failed"
+    exit
+fi
+unzip picomv9.1.zip 
+cd picom-9.1
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'unzip bins/picom/picomv10.2.zip' $RESET has failed"
     exit
@@ -284,6 +289,13 @@ if [ $? != 0 ]; then
     exit
 fi  
 
+# Install pywal
+sudo pip3 install pywal 
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED sudo pip3 install pywal $RESET has failed"
+    exit
+fi
+
 # Install Pen Test Tools
 sudo apt install -y bloodhound neo4j powershell
 if [ $? != 0 ]; then
@@ -351,8 +363,21 @@ chmod +x ~/.config/nsxiv/exec/key-handler
 sudo chown $USER:$USER_GROUP /usr/local/bin/wallpaper-changer 
 sudo chmod +x /usr/local/bin/wallpaper-changer 
 
-#sudo chown $USER:$USER_GROUP /usr/local/bin/change-corners
-#sudo chmod +x /usr/local/bin/change-corners
+sudo chown $USER:$USER_GROUP /usr/local/bin/wallpaper-scheduler 
+sudo chmod +x /usr/local/bin/wallpaper-scheduler 
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/default-wallpaper
+sudo chmod +x /usr/local/bin/default-wallpaper
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/change-corners
+sudo chmod +x /usr/local/bin/change-corners
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/pywal
+sudo chmod +x /usr/local/bin/pywal
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/restore-daku
+sudo chmod +x /usr/local/bin/restore-daku
+
 
 # System Scripts
 sudo chown $USER:$USER_GROUP /usr/local/bin/powermenu

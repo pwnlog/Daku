@@ -1,0 +1,72 @@
+#!/usr/bin/bash
+
+POLYBAR="$HOME/.config/polybar/config.ini"
+ROFI="$HOME/.config/rofi/colors.rasi"
+KITTY="$HOME/.config/kitty/kitty.conf"
+
+get_colors() {
+    #wal --backend wal -i "$1" -q
+    wal -i "$1" -q -t
+}
+
+apply_colors() {
+    # polybar
+	sed -i -e "s/background = #.*/background = $BGT/g" $POLYBAR
+	sed -i -e "s/background-alt = #.*/background-alt = $FG/g" $POLYBAR
+	sed -i -e "s/foreground = #.*/foreground = $FGA/g" $POLYBAR
+	sed -i -e "s/primary = #.*/primary = $COLOR1/g" $POLYBAR
+	sed -i -e "s/secondary = #.*/secondary = $COLOR2/g" $POLYBAR
+	sed -i -e "s/alert = #.*/alert = $COLOR3/g" $POLYBAR
+	sed -i -e "s/disabled = #.*/disabled = $COLOR4/g" $POLYBAR
+
+	# rofi
+	cat > $ROFI <<- EOF
+/* COLORS */
+
+* {
+	background:    		${BG};
+	background-alt:   	${BGT};
+	foreground:   		${FG};
+	primary:   			${COLOR1};
+	secondary:    		${COLOR2};
+	alert:   			${COLOR3};
+	disabled: 			${COLOR4};
+}
+	EOF
+
+	# kitty
+	sed -i -e "s/active_tab_background   #.*/active_tab_background   $COLOR1/g" $KITTY
+	sed -i -e "s/inactive_tab_background #.*/inactive_tab_background $COLOR2/g" $KITTY
+	sed -i -e "s/tab_bar_background #.*/tab_bar_background $BG/g" $KITTY
+	
+	polybar-msg cmd restart
+}
+
+if [[ -x "`which wal`" ]]; then
+	if [[ "$1" ]]; then
+		get_colors "$1"
+		
+        . "$HOME/.cache/wal/colors.sh"
+
+		BG=`printf "%s\n" "$background"`
+        BGT=`echo $BG | sed 's/#/#aa/g'`
+		FG=`printf "%s\n" "$color0"`
+		FGA=`printf "%s\n" "$color7"`
+		COLOR1=`printf "%s\n" "$color1"`
+		COLOR2=`printf "%s\n" "$color2"`
+		COLOR3=`printf "%s\n" "$color3"`
+		COLOR4=`printf "%s\n" "$color4"`
+		COLOR5=`printf "%s\n" "$color5"`
+		#COLOR6=`printf "%s\n" "$color6"`
+		#COLOR7=`printf "%s\n" "$color7"`
+		#COLOR8=`printf "%s\n" "$color8"`
+
+		apply_colors
+	else
+		echo -e "[-] Error: Please enter the absolute path of the wallpaper.\n"
+		echo "Usage: ./pywal.sh path/to/image"
+	fi
+else
+	echo "[-] Error: It seems that 'pywal' is not installed."
+    exit
+fi

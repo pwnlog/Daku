@@ -1,0 +1,119 @@
+#!/usr/bin/bash
+
+# Global Variables
+CRON_FILE="/var/spool/cron/crontabs/$USER"
+
+function enable_cron(){
+    crontab -l | sed "/^#.* DISPLAY=:0 \/usr\/bin\/bash \/usr\/local\/bin\/wallpaper-changer/s/^#//" | crontab -
+    echo "[+] Enabled the cron"
+    exit
+}
+
+function disable_cron(){
+    crontab -l | sed "/^[^#].* DISPLAY=:0 \/usr\/bin\/bash \/usr\/local\/bin\/wallpaper-changer/s/^/#/" | crontab -
+    echo "[+] Disabled the cron"
+    exit
+}
+
+function delete_cron(){
+    crontab -u $USER -r
+    echo "[+] Deleted the cron"
+    exit
+}
+
+function create_modify_cron(){
+    echo "[!] Elevating to sudo"
+    sudo test
+
+    if sudo [ ! -f $CRON_FILE ]; then
+        echo "[+] Creating a new crontab"
+        echo "*/$MINUTE */$HOUR * * * DISPLAY=:0 /usr/bin/bash /usr/local/bin/wallpaper-changer" | crontab -
+        echo "[+] The current user ($USER) now has the following crontab:"
+        crontab -u $USER -l
+    else
+        crontab -u $USER -r
+        echo "*/$MINUTE */$HOUR * * * DISPLAY=:0 /usr/bin/bash /usr/local/bin/wallpaper-changer" | crontab -
+        echo "[+] Modified the crontab to change the desktop wallpaper every $MINUTE minute/s at every $HOUR hour/s."
+        echo "[+] The new crontab configuration is the following:"
+        crontab -u $USER -l
+    fi
+
+}
+
+function help_menu(){
+    echo "Script usage: wallpaper-scheduler [-h] [-e] [-d] [-t] [-m <minutes>] [-u <hours>]"
+    echo -e "Example:\n" \
+        "\twallpaper-scheduler.sh -m 1 -u 1\nOptions:\n" \
+        "\t-h, --help       Print this help menu.\n" \
+        "\t-e, --enable     Enable the cronjob.\n" \
+        "\t-d, --disable    Disable the cronjob.\n" \
+        "\t-t, --delete     Delete the cronjob.\n" \
+        "\t-m, --minute     Amount of minutes within the range of (1-59).\n" \
+        "\t-u, --hour       Amount of hours within the range of (1-23)."
+    exit
+}
+
+if [ -z "$1" ]; then
+    help_menu
+fi
+
+while [ ! -z "$1" ]; do
+  case "$1" in
+    --enable|-e)
+        shift
+        enable_cron
+        ;;
+    --disable|-d)
+        shift
+        disable_cron
+        ;;
+    --delete|-t)
+        shift
+        delete_cron
+        ;;
+    --minute|-m)
+        shift
+        MINUTE=$1
+        ;;
+    --hour|-u)
+        shift
+        HOUR=$1
+        ;;
+    *)
+        help_menu
+        ;;
+  esac
+shift
+done
+
+if [[ $MINUTE != "" && $HOUR == "" ]]; then
+    echo "[-] Error: Both minutes and hours are required"
+    exit
+elif [[ $MINUTE == "" && $HOUR != "" ]]; then
+    echo "[-] Error: Both minutes and hours are required"
+    exit
+fi
+
+if [[ $MINUTE != "" && $HOUR != "" ]]; then
+    if ! [[ "$MINUTE" =~ ^[0-9]+$ || "$HOUR" =~ ^[0-9]+$ ]]
+    then
+        echo "[-] Error: Signed numbers/integers are accepted"
+        exit 1
+    fi
+
+    if [ $MINUTE -ge 1 ] && [ $MINUTE -le 59 ]; then
+        :
+    else
+        echo "[-] Error: The minute is out of range, the valid range is from (1-59) minutes"
+        exit 1
+    fi
+
+    if [ $HOUR -ge 1 ] && [ $HOUR -le 23 ]; then
+        :
+    else
+        echo "[-] Error: The hour is out of range, the valid range is from (1-23) hour"
+        exit 1
+    fi
+
+    create_modify_cron "$MINUTE" "$HOUR"
+fi

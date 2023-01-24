@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+
+#WALLPAPER=$(cat ~/.fehbg | grep -oE "'/.*.png'|/.*.jpg'" | sed 's/\//\\\//g' | cut -d "'" -f 1)
+FEH="$HOME/.fehbg"
+
+function default_wallpaper(){
+    #NEW_WALL=$(echo $1 | sed 's/\//\\\//g' | cut -d "'" -f 1)
+    #sed -ie "s/$WALLPAPER/$NEW_WALL/g" $HOME/.fehbg
+    #sudo sed -ie "s/$WALLPAPER/$1/g" /root/.fehbg
+    echo "#!/bin/sh" | tee $FEH ~/.fehbak > /dev/null
+    echo "feh --no-fehbg --bg-fill '$1'" | tee -a $FEH ~/.fehbak >> /dev/null
+    killall feh 2>/dev/null
+    bash ~/.fehbg
+    exit
+}
+
+function help_menu(){
+    echo "Usage: default-wallpaper [-s <wallpaper>] \" ~/Pictures/Wallpapers/wallpaper.png\""
+    echo "-s, --set:    Set a default wallpaper."
+    echo ""
+    echo "Example: default-wallpaper --set ~/Pictures/Wallpapers/wallpaper.png"
+    echo "Information: If want to use \$HOME instead of ~, you have to use double quotes"
+    exit
+}
+
+if [ -z "$1" ]; then
+    help_menu
+fi
+
+while [ ! -z "$1" ]; do
+  case "$1" in
+    --set|-s)
+        shift
+        default_wallpaper $1
+        ;;
+    *)
+        help_menu
+        ;;
+  esac
+shift
+done

@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+# This script is not complete
+
+# Pentest Tools Directory
+sudo mkdir -p /opt/PenTest/{Recon,Vulnerability-Analysis,Exploitation,Web,{Post-Exploitaiton/PrivEsc,Lateral-Movement,Persistence},Wordlists}
+
+# Install Poetry
+: '
+curl -sSL https://install.python-poetry.org | python3 -
+poetry self update
+pip install --upgrade pip
+sudo apt install -y pipx 
+
+# CrackMapExec
+sudo apt purge -y crackmapexec 2>/dev/null
+apt-get install -y libssl-dev libffi-dev python-dev-is-python3 build-essential
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+pip install setuptools_rust
+git clone https://github.com/Porchetta-Industries/CrackMapExec
+cd CrackMapExec
+poetry install
+poetry run crackmapexec
+cd ..
+'
+
+# winPEAS
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/winPEASx64.exe -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/winPEASx86.exe -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+
+# linPEAS
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_darwin_amd64 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_darwin_arm64 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_linux_386 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_linux_amd64 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_linux_arm -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_linux_arm64 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
+
+# PowerView
+
+
+# SecLists
+git clone https://github.com/danielmiessler/SecLists /opt/PenTest/Wordlists/
+
+# SharpTools
+SharpHound
+
