@@ -5,8 +5,7 @@ ROFI="$HOME/.config/rofi/colors.rasi"
 KITTY="$HOME/.config/kitty/kitty.conf"
 
 get_colors() {
-    #wal --backend wal -i "$1" -q
-    wal -i "$1" -q -t
+    wal -i "$1" -q -n
 }
 
 apply_colors() {
@@ -26,7 +25,7 @@ apply_colors() {
 * {
 	background:    		${BG};
 	background-alt:   	${BGT};
-	foreground:   		${FG};
+	foreground:   		#FFFFFF;
 	primary:   			${COLOR1};
 	secondary:    		${COLOR2};
 	alert:   			${COLOR3};

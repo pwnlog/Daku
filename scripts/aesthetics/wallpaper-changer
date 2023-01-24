@@ -18,11 +18,12 @@ echo $WALLPAPER > /dev/shm/previous.txt
 killall feh 2>/dev/null
 
 DAKU=$(cat $HOME/.config/polybar/config.ini | grep 'background = #14181d')
-if [ $? != 0 ]; then
+if [ $? == 0 ]; then
     feh --bg-fill $WALLPAPER
     exit
 else
 	/usr/local/bin/pywal $WALLPAPER
+	feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
 	exit
 fi
 
