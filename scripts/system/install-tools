@@ -3,7 +3,7 @@
 # This script is not complete
 
 # Pentest Tools Directory
-sudo mkdir -p /opt/PenTest/{Recon,Vulnerability-Analysis,Exploitation,Web,{Post-Exploitaiton/PrivEsc,Lateral-Movement,Persistence},Wordlists}
+sudo mkdir -p /opt/PenTest/{Recon,Vulnerability-Analysis,Exploitation,Web,Post-Exploitaiton/{PrivEsc,Lateral-Movement,Persistence},Wordlists}
 
 # Install Poetry
 : '
@@ -24,6 +24,20 @@ poetry run crackmapexec
 cd ..
 '
 
+# Install Go
+wget https://go.dev/dl/go1.19.5.linux-amd64.tar.gz -O go1.19.5.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.5.linux-amd64.tar.gz
+# Install httpx
+/usr/local/go/bin/go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+# Install subfinder
+/usr/local/go/bin/go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+# Install katana
+/usr/local/go/bin/go install github.com/projectdiscovery/katana/cmd/katana@latest
+# Install nuclei
+/usr/local/go/bin/go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+# Install shodan-cli
+pip install shodan
+
 # winPEAS
 sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/winPEASx64.exe -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
 sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/winPEASx86.exe -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
@@ -37,11 +51,11 @@ sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/lin
 sudo wget https://github.com/carlospolop/PEASS-ng/releases/download/20230122/linpeas_linux_arm64 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
 
 # PowerView
-
+sudo wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1 -O /opt/PenTest/Post-Exploitaiton/PrivEsc/
 
 # SecLists
-git clone https://github.com/danielmiessler/SecLists /opt/PenTest/Wordlists/
+sudo git clone https://github.com/danielmiessler/SecLists /opt/PenTest/Wordlists/
 
 # SharpTools
-SharpHound
+# SharpHound
 

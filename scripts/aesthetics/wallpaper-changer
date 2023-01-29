@@ -1,5 +1,13 @@
 #! /bin/bash
 
+# Global Variables
+if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "daku" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+	POLYBAR="$HOME/.config/polybar/daku/config.ini"
+fi 
+
+if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "dakura" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+	POLYBAR="$HOME/.config/polybar/dakura/colors.ini"
+fi
 WALLS=(~/Pictures/Wallpapers/*)
 
 function select_wallpaper() {
@@ -17,7 +25,7 @@ done
 echo $WALLPAPER > /dev/shm/previous.txt
 killall feh 2>/dev/null
 
-DAKU=$(cat $HOME/.config/polybar/config.ini | grep 'background = #14181d')
+cat $POLYBAR | grep 'background = #14181d'
 if [ $? == 0 ]; then
     feh --bg-fill $WALLPAPER
     exit

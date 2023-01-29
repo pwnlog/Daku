@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Default key-handler file MODIFIED
+# Description: Default key-handler file modified
+
 # MODIFICATION: Added wallpaper setter.
 
 # Example for $XDG_CONFIG_HOME/nsxiv/exec/key-handler
@@ -44,10 +45,31 @@ case "$1" in
 "C-slash")  rotate 180 ;;
 esac
 
+set_wallpaper(){
+	if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "daku" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+		POLYBAR="$HOME/.config/polybar/daku/config.ini"
+	fi 
+
+	if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "dakura" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+		POLYBAR="$HOME/.config/polybar/dakura/colors.ini"
+	fi
+	cat $POLYBAR | grep 'background = #14181d'
+	if [ $? == 0 ]; then
+		killall feh
+		feh --bg-fill $1
+		exit
+	else
+		killall feh
+		/usr/local/bin/pywal $1
+		feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
+		exit
+	fi
+}
+
 # Custom
 while read file; do
     fullpath="$(pwd)/$file"
     case "$1" in
-    "w") killall feh; feh --bg-fill $file ;;
+    "w") set_wallpaper "$file";;
     esac
 done

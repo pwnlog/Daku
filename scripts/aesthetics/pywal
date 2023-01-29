@@ -1,6 +1,13 @@
 #!/usr/bin/bash
 
-POLYBAR="$HOME/.config/polybar/config.ini"
+# Global Variables
+if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "daku" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+	POLYBAR="$HOME/.config/polybar/daku/config.ini"
+fi 
+
+if [[ ! -z $(ps -efww | grep -vE "grep|launch.sh|scripts" | grep "dakura" | awk -vpid=$$ '$2 != pid { print $2 }') ]]; then
+	POLYBAR="$HOME/.config/polybar/dakura/colors.ini"
+fi
 ROFI="$HOME/.config/rofi/colors.rasi"
 KITTY="$HOME/.config/kitty/kitty.conf"
 

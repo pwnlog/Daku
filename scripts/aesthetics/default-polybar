@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+
+# Global Variables
+AWESOME=~/.config/awesome/configuration/startup.lua 
+PREVIOUS=$(cat ~/.config/awesome/configuration/startup.lua | grep -oE 'daku|dakura')
+THEME=$1
+
+function help_menu(){
+    echo "Usage: default-polybar <theme name>"
+    echo "[i] The available themes are the following:"
+    echo -e "daku\ndakura"
+}
+
+if [ -z $1 ]; then
+    help_menu
+    exit 1
+fi
+
+if [[ ! "$THEME" =~ ^(daku|dakura)$ ]]; then
+    echo "[-] Invalid theme: $THEME"
+    echo "[i] The valid themes are the following:"
+    echo -e "daku\ndakura"
+    exit 1
+elif [[ "$THEME" == "$PREVIOUS" ]]; then
+    echo "[i] You're already running this polybar theme: $THEME"
+    exit 1
+else
+    echo "[+] Applying the polybar theme: $THEME"
+    sed -ie "s/$PREVIOUS/$THEME/g" $AWESOME
+    echo "[+] Restarting AwesomeWM"
+    echo 'awesome.restart()' | awesome-client
+fi

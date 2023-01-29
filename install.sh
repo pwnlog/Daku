@@ -236,6 +236,24 @@ if [ $? != 0 ]; then
     exit
 fi
 
+# Install neovim
+sudo apt install -y neovim 
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt install -y neovim' $RESET has failed"
+    exit
+fi
+
+# Install LSP neovim related stuff
+sudo apt install -y python3-venv cargo npm
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt install -y python3-venv' $RESET has failed"
+    exit
+fi
+#nvim --headless +PlugInstall +qa
+#MasonInstall python-lsp-server
+#MasonInstall asm-lsp
+#MasonInstall bash-language-server
+
 # Install Powerlevel10K
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k 
 if [ $? != 0 ]; then
@@ -286,6 +304,25 @@ fi
 sudo apt install -y nsxiv
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'sudo apt install -y nsxiv' $RESET has failed"
+    exit
+fi  
+
+# Install mpd and mpc
+sudo apt install -y mpd mpc
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt install -y mpd mpc' $RESET has failed"
+    exit
+fi
+systemctl --user enable mpd.service
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'systemctl --user enable mpd' $RESET has failed"
+    exit
+fi
+
+# Install ncmpcpp
+sudo apt install -y ncmpcpp
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'systemctl --user enable mpd.service' $RESET has failed"
     exit
 fi  
 
@@ -369,6 +406,9 @@ sudo chmod +x /usr/local/bin/wallpaper-scheduler
 sudo chown $USER:$USER_GROUP /usr/local/bin/default-wallpaper
 sudo chmod +x /usr/local/bin/default-wallpaper
 
+sudo chown $USER:$USER_GROUP /usr/local/bin/default-polybar
+sudo chmod +x /usr/local/bin/default-polybar
+
 sudo chown $USER:$USER_GROUP /usr/local/bin/change-corners
 sudo chmod +x /usr/local/bin/change-corners
 
@@ -378,10 +418,12 @@ sudo chmod +x /usr/local/bin/pywal
 sudo chown $USER:$USER_GROUP /usr/local/bin/restore-daku
 sudo chmod +x /usr/local/bin/restore-daku
 
-
 # System Scripts
 sudo chown $USER:$USER_GROUP /usr/local/bin/powermenu
 sudo chmod +x /usr/local/bin/powermenu
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/install-tools
+sudo chmod +x /usr/local/bin/install-tools
 
 # Network Scripts
 sudo chown $USER:$USER_GROUP /usr/local/bin/ethernet-status

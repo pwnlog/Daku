@@ -39,6 +39,7 @@ Daku is a pen testing Linux configuration with dark colors.
 <b>- Shell: </b><br />
 <b>- Editor: </b><br />
 <b>- Audio: </b><br />
+<b>- Music Player: </b><br />
 <b>- Wallpaper: </b><br />
 </table>
 
@@ -52,6 +53,7 @@ Daku is a pen testing Linux configuration with dark colors.
 <a href="https://www.zsh.org">Zsh</a><br />
 <a href="https://code.visualstudio.com/">VSCode</a><br />
 <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Download/">Pulseaudio</a><br />
+<a href="https://github.com/ncmpcpp/ncmpcpp">Ncmpcpp</a><br />
 <a href="https://github.com/derf/feh">Feh</a><br />
 </table>
 </div>
