@@ -489,4 +489,4 @@ cat << EOF
 
 EOF
 
-echo "$GREEN [+] Finished installing Daku in your sytem, follow the next steps provided in the$RESET$BLUE README.md$RESET$GREEN file. $RESET"
+echo "$GREEN [+] Finished installing Daku in your system, follow the next steps provided in the$RESET$BLUE README.md$RESET$GREEN file. $RESET"

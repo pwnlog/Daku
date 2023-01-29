@@ -63,7 +63,7 @@ Daku is a pen testing Linux configuration with dark colors.
 Clone or download the project and navigate into it:
 
 ```
-cd ~; git clone https://github.com/pwnlog/Daku && cd Daku && chmod +x install.sh
+cd ~; git clone --depth 1 --recurse-submodules https://github.com/pwnlog/Daku && cd Daku && git submodule update --remote --merge && chmod +x install.sh
 ```
 
 > **Warning**: If you're copying these files from a Windows system do make sure that is formatted for Unix:
