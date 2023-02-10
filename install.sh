@@ -415,9 +415,9 @@ cd $CWD
 sudo apt install -y libimlib2-dev
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'sudo apt install -y libimlib2-dev' $RESET has failed"
-    #sudo apt update
-    #sudo apt autoremove
+    echo -e "\n\n\n"
     echo "$BLUE [!] User interaction required, please read the TROUBLESHOOTING.md file for more information $RESET"
+    echo -e "\n\n\n"
     sudo aptitude install libdeflate0
     sudo aptitude install libdeflate-dev
     sudo aptitude install libimlib2-dev
@@ -593,6 +593,14 @@ sudo cp -r $CWD/wallpapers/daku/* /root/Pictures/Wallpapers
 # Fix wallpaper for other usernames
 sed -ie "s/kali/$USER/g" ~/.fehbg
 sudo sed -ie "s/kali/root/g" /root/.fehbg
+
+# Fix thunar
+sed -ie "s/kali/$USER/g" ~/.config/gtk-3.0/bookmarks
+sudo sed -ie "s/kali/root/g" /root/.config/gtk-3.0/bookmarks
+
+# Fix qterminal
+sed -ie "s/kali/$USER/g" ~/.config/qterminal.org/qterminal.ini 
+sudo sed -ie "s/kali/root/g" /root/.config/qterminal.org/qterminal.ini 
 
 ##################################################################################
 #********************************************************************************#
