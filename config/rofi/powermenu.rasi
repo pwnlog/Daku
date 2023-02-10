@@ -1,5 +1,3 @@
-@import "colors.rasi"
-
 configuration {
 	font:							"Iosevka Nerd Font 10";
     show-icons:                     true;
@@ -11,6 +9,8 @@ configuration {
 	hide-scrollbar: 				true;
 	sidebar-mode: 					false;
 }
+
+@import "colors.rasi"
 
 window {
     transparency:                   "real";

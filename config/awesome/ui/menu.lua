@@ -1,7 +1,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local hotkeys_popup = require("awful.hotkeys_popup")
-
+require("configuration.applications")
 
 -- *********************************
 -- *********************************
@@ -10,10 +10,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- *********************************
 -- *********************************
 -- *********************************
-
-terminal = "kitty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
 
 --- Awesome Submenu
 myawesomemenu = {

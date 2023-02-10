@@ -1,8 +1,17 @@
 #!/usr/bin/bash
 
 # Information: 
-# - Lab: This script has only been tested on Kali Linux 2022.4 xfce4 with LightDM
+# - Lab: This script has only been tested on Kali Linux 2022.4 and ParrotOS 5.2 Security Edition
 # - Author: pwnlog
+
+# Combatible Systems:
+# - Kali Linux
+# - ParrotOS
+
+# Some software are installed from releases instead of APT for the following reasons:
+# 1. Stability
+# 2. Configuration Bugs
+# 3. Works in multiple systems
 
 ##################################################################################
 #********************************************************************************#
@@ -48,10 +57,10 @@ EOF
 ##################################################################################
 
 # Detect if the system is Kali Linux by kernel release
-if [[ $DISTRO != *"kali"* ]]; then
-    echo "[i] OS: It appears that you're running this script in a system that's NOT Kali Linux"
-    echo "[i] WARNING: This script has only been tested in $RED_UNDERLINE_BOLD Kali Linux 2022.4 xfce4 with LightDM $RESET, it may not work for this system"
-fi
+#if [[ $DISTRO != *"kali"* ]]; then
+#    echo "[i] OS: It appears that you're running this script in a system that's NOT Kali Linux"
+#    echo "[i] WARNING: This script has only been tested in $RED_UNDERLINE_BOLD Kali Linux 2022.4 xfce4 with LightDM $RESET, it may not work for this system"
+#fi
 
 # Sudo Prompt
 echo "[+] Sudo privileges required."
@@ -62,6 +71,20 @@ sudo apt-get update
 if [ $? != 0 ]; then
     update_failed
 fi
+
+# Aptitude Support for solving dependencies, downgrading, upgrading, and making sure packages work
+sudo apt install -y aptitude
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt install -y aptitude' $RESET has failed"
+    exit
+fi
+
+# VMware Support (GUI)
+sudo apt install -y open-vm-tools-desktop
+if [ $? != 0 ]; then
+    echo "[-] Failed to install VMware tools"
+fi
+# Enable Copy-Paste between Guest and VM with: /usr/bin/vmware-user-suid-wrapper
 
 ##################################################################################
 #********************************************************************************#
@@ -78,6 +101,9 @@ sudo apt update
 if [ $? != 0 ]; then
     update_failed
 fi
+
+# Install AwesomeWM dependencies for some system such as ParrotOS
+sudo apt-get install -y imagemagick libcairo2-dev
 
 # Install AwesomeWM
 sudo apt build-dep -y awesome
@@ -146,11 +172,45 @@ fi
     # lsd: Replacement for ls
     # bat: Replacement for cat
     # pulseaudio: Audio volume
-sudo apt install -y xclip coreutils flameshot kitty lxappearance papirus-icon-theme lsd bat pulseaudio
+sudo apt install -y thunar xclip coreutils flameshot kitty lxappearance papirus-icon-theme bat pulseaudio redshift bluez pulseaudio-utils playerctl maim dunst light exa gir1.2-playerctl-2.0 network-manager 
 if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo apt install -y xclip coreutils flameshot kitty lxappearance papirus-icon-theme lsd bat pulseaudio' $RESET has failed"
+    echo "[-] Command: $RED 'sudo apt install -y xclip coreutils flameshot kitty lxappearance papirus-icon-theme lsd bat pulseaudio playerctl maim dunst light exa gir1.2-playerctl-2.0' $RESET has failed"
     exit
 fi
+
+# ParrotOS
+wget https://github.com/Peltoche/lsd/releases/download/0.23.0/lsd_0.23.0_amd64.deb -O lsd_0.23.0_amd64.deb
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'wget https://github.com/Peltoche/lsd/releases/download/0.23.0/lsd_0.23.0_amd64.deb -O lsd_0.23.0_amd64.deb' $RESET has failed"
+    exit
+fi
+sudo dpkg -i lsd_0.23.0_amd64.deb 
+
+sudo apt install -y build-essential libxft-dev libharfbuzz-dev
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt install -y build-essential libxft-dev libharfbuzz-dev' $RESET has failed"
+    exit
+fi
+
+# Install BSPWM
+sudo apt-get install -y libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt-get install -y libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev' $RESET has failed"
+    exit
+fi
+git clone https://github.com/baskerville/bspwm.git
+git clone https://github.com/baskerville/sxhkd.git
+cd bspwm && make && sudo make install
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'cd bspwm && make && sudo make install' $RESET has failed"
+    exit
+fi
+cd ../sxhkd && make && sudo make install
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'cd ../sxhkd && make && sudo make install' $RESET has failed"
+    exit
+fi
+cd $CWD
 
 # Install Optional Tools
 sudo apt install -y font-manager
@@ -174,7 +234,7 @@ if [ $? != 0 ]; then
 fi
 sudo unzip -o Iosevka.zip -d /usr/share/fonts/
 if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo unzip bins/fonts/Iosevka.zip -d /usr/share/fonts/' $RESET has failed"
+    echo "[-] Command: $RED 'sudo unzip -o Iosevka.zip -d /usr/share/fonts/' $RESET has failed"
     exit
 fi
 
@@ -192,10 +252,10 @@ if [ $? != 0 ]; then
     echo "[-] Command: $RED 'wget \"https://github.com/yshui/picom/archive/refs/tags/v9.1.zip\" -O picomv9.1.zip' $RESET has failed"
     exit
 fi
-unzip picomv9.1.zip 
+unzip -o picomv9.1.zip 
 cd picom-9.1
 if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'unzip bins/picom/picomv10.2.zip' $RESET has failed"
+    echo "[-] Command: $RED 'unzip -o picomv9.1.zip' $RESET has failed"
     exit
 fi
 meson setup --buildtype=release . build
@@ -207,19 +267,72 @@ if [ $? != 0 ]; then
 fi
 cd $CWD
 
-# Install Rofi
-sudo apt install -y rofi-dev
-if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo apt install -y rofi-dev' $RESET has failed"
+# Install Rofi from releases (Why? Because different systems have different versions in their APT)
+sudo apt install -y bison flex check
+# Remove old version (if installed)
+sudo apt purge rofi 2>/dev/null
+wget https://github.com/davatorium/rofi/releases/download/1.7.5/rofi-1.7.5.tar.gz -O rofi-1.7.5.tar.gz
+if [ -f "rofi-1.7.5.tar.gz" ]; then
+    echo "[+] The file rofi-1.7.5.tar.gz was downloaded."
+else 
+    echo "[-] The file rofi-1.7.5.tar.gz was not downloaded."
     exit
 fi
+tar -xvf rofi-1.7.5.tar.gz
+cd rofi-1.7.5
+mkdir build 
+cd build 
+../configure 
+make 
+sudo make install 
+if [ $? != 0 ]; then
+    echo -e "[-] Failed to install rofi!"
+    exit
+fi
+cd $CWD
+
+# Install Polybar from releases 
+#sudo aptitude install python3-sphinx
+sudo pip install sphinx
+sudo apt install -y build-essential git cmake cmake-data pkg-config python3-packaging libuv1-dev libcairo2-dev libxcb1-dev libxcb-util0-dev libxcb-randr0-dev libxcb-composite0-dev python3-xcbgen xcb-proto libxcb-image0-dev libxcb-ewmh-dev libxcb-icccm4-dev
+# Remove old version (if installed)
+sudo apt purge polybar
+wget https://github.com/polybar/polybar/releases/download/3.6.3/polybar-3.6.3.tar.gz -O polybar-3.6.3.tar.gz
+echo "f25758573567208fc7b6f4d4115a6117a87389cbcc094cf605d079775be95fa5 polybar-3.6.3.tar.gz" | sha256sum -c
+if [ $? != 0 ]; then
+    echo -e "[-] Failed to download polybar-3.6.3.tar.gz correctly!"
+    exit
+fi
+tar -xvf polybar-3.6.3.tar.gz
+cd polybar-3.6.3
+mkdir build
+cd build
+cmake ..
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'cmake ..' $RESET has failed"
+    exit
+fi
+make -j$(nproc)
+sudo make install
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo make install $RESET has failed"
+    exit
+fi
+cd $CWD
+
+# Install Rofi
+#sudo apt install -y rofi-dev
+#if [ $? != 0 ]; then
+#    echo "[-] Command: $RED 'sudo apt install -y rofi-dev' $RESET has failed"
+#    exit
+#fi
 
 # Install Polybar
-sudo apt install -y polybar
-if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo apt install -y polybar' $RESET has failed"
-    exit
-fi
+#sudo apt install -y polybar
+#if [ $? != 0 ]; then
+#    echo "[-] Command: $RED 'sudo apt install -y polybar' $RESET has failed"
+#    exit
+#fi
 
 # Install Feh
 sudo apt install -y feh
@@ -255,6 +368,7 @@ fi
 #MasonInstall bash-language-server
 
 # Install Powerlevel10K
+rm -rf ~/powerlevel10k 2>/dev/null
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k 
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k' $RESET has failed"
@@ -262,6 +376,7 @@ if [ $? != 0 ]; then
 fi
 
 # Install xeventbind
+rm -rf xeventbind 2>/dev/null
 git clone https://github.com/ritave/xeventbind.git
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'git clone https://github.com/ritave/xeventbind.git' $RESET has failed"
@@ -281,7 +396,8 @@ sudo apt install -y i3lock
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'sudo apt install -y i3lock' $RESET has failed"
     exit
-fi      
+fi 
+rm -rf i3lock-fancy 2>/dev/null     
 git clone https://github.com/meskarune/i3lock-fancy.git
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'git clone https://github.com/meskarune/i3lock-fancy.git' has failed"
@@ -299,13 +415,29 @@ cd $CWD
 sudo apt install -y libimlib2-dev
 if [ $? != 0 ]; then
     echo "[-] Command: $RED 'sudo apt install -y libimlib2-dev' $RESET has failed"
-    exit
+    #sudo apt update
+    #sudo apt autoremove
+    echo "$BLUE [!] User interaction required, please read the TROUBLESHOOTING.md file for more information $RESET"
+    sudo aptitude install libdeflate0
+    sudo aptitude install libdeflate-dev
+    sudo aptitude install libimlib2-dev
+    #exit
 fi  
-sudo apt install -y nsxiv
+sudo apt-get install -y libexif-dev
 if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo apt install -y nsxiv' $RESET has failed"
+    echo "[-] Command: $RED 'sudo apt-get install -y libexif-dev' $RESET has failed"
     exit
 fi  
+git clone https://github.com/nsxiv/nsxiv
+cd nsxiv
+sudo make install-all
+cd $CWD
+
+#sudo apt install -y nsxiv
+#if [ $? != 0 ]; then
+#    echo "[-] Command: $RED 'sudo apt install -y nsxiv' $RESET has failed"
+#    exit
+#fi  
 
 # Install mpd and mpc
 sudo apt install -y mpd mpc
@@ -457,6 +589,10 @@ mkdir -p ~/Pictures/Wallpapers
 sudo mkdir -p /root/Pictures/Wallpapers 
 cp $CWD/wallpapers/daku/* ~/Pictures/Wallpapers 
 sudo cp -r $CWD/wallpapers/daku/* /root/Pictures/Wallpapers 
+
+# Fix wallpaper for other usernames
+sed -ie "s/kali/$USER/g" ~/.fehbg
+sudo sed -ie "s/kali/root/g" /root/.fehbg
 
 ##################################################################################
 #********************************************************************************#

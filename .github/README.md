@@ -78,21 +78,27 @@ Install Daku using the automated installation script:
 ./install.sh
 ```
 
-> **Note**: This script has only been tested in Kali Linux 2022.4.
+> **Warning**: Run this script as a `user` that belongs in the `sudo` group. Do **NOT** run it as the `root` user.
+
+> **Note**: This script has only been tested in `Kali Linux 2022.4` and `ParrotOS 5.2 Security Edition`. If you're using `Parrot` you may need to interact during the installation, for more information, read the [troubleshooting](./TROUBLESHOOTING.md) guide.
 
 Reboot the system:
 
 ```
-reboot
+reboot || systemctl reboot
 ```
 
 Select `awesome` as your window manager and log in:
 
 ![lightdm-awesome](assets/images/lightdm-awesome.png)
 
+> **Note**: In other display managers the selection button may be located elsewhere. As an example, see this [image](https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2020/06/muo-linux-display-managers-pantheon-greeter-670x457.png?q=50&fit=crop&w=1500&dpr=1.5).
+
 Congratulations, now you have Daku installed in your system:
 
 ![daku](assets/images/daku-welcome.png)
+
+> **Note**: You can reload `awesome` with `Super+Alt+R` also known as `Windows+Alt+R`.
 
 # :hearts: Development
 
