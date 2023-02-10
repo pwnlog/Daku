@@ -30,8 +30,7 @@ Daku is a pen testing Linux configuration with dark colors.
 <img src="https://raw.githubusercontent.com/awesomeWM/apidoc/gh-pages/images/AUTOGEN_wibox_logo_logo_and_name.svg" align=right />
 
 <table align=left><tr><td>
-<b>- Operating System: </b><br />
-<b>- Display Manager: </b><br />
+<b>- Operating Systems: </b><br />
 <b>- Window Manager: </b><br />
 <b>- Application Launcher: </b><br />
 <b>- Compositor: </b><br />
@@ -44,8 +43,7 @@ Daku is a pen testing Linux configuration with dark colors.
 </table>
 
 <table><tr><td>
-<a href="https://www.kali.org/">Kali Linux</a><br />
-<a href="https://github.com/canonical/lightdm">LightDM</a><br />
+<a href="https://www.kali.org/">Kali Linux/ParrotOS</a><br />
 <a href="https://awesomewm.org">AwesomeWM</a><br />
 <a href="https://github.com/davatorium/rofi">Rofi</a><br />
 <a href="https://github.com/yshui/picom">Picom</a><br />

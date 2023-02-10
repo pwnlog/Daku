@@ -4,7 +4,7 @@
 # - Lab: This script has only been tested on Kali Linux 2022.4 and ParrotOS 5.2 Security Edition
 # - Author: pwnlog
 
-# Combatible Systems:
+# Compatible Systems:
 # - Kali Linux
 # - ParrotOS
 
