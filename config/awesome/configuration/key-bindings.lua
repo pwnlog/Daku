@@ -417,6 +417,16 @@ awful.keyboard.append_global_keybindings({
 -- *********************************
 
 awful.keyboard.append_global_keybindings({
+	--- Set tilling layout
+	awful.key({ modkey, shift }, "t", function()
+		awful.layout.set(awful.layout.suit.tile)
+	end, { description = "set tile layout", group = "layout" }),
+
+	--- Set floating layout
+	awful.key({ modkey, shift }, "s", function()
+		awful.layout.set(awful.layout.suit.floating)
+	end, { description = "set floating layout", group = "layout" }),
+
     -- Swap window/tag with next client by index
     awful.key(
         { modkey, "Shift" },
@@ -624,7 +634,8 @@ client.connect_signal("request::default_keybindings", function()
             "j",
             function(c)
 			    c:relative_move(0, dpi(20), 0, 0)
-		    end
+		    end,
+            { description = "move client by dpi", group = "client" }
         ),
 
 		awful.key(
@@ -632,7 +643,8 @@ client.connect_signal("request::default_keybindings", function()
             "k",
             function(c)
 			    c:relative_move(0, dpi(-20), 0, 0)
-		    end
+		    end,
+            { description = "move client by dpi", group = "client" }
         ),
 
 		awful.key(
@@ -640,7 +652,8 @@ client.connect_signal("request::default_keybindings", function()
             "h",
             function(c)
 			    c:relative_move(dpi(-20), 0, 0, 0)
-		    end
+		    end,
+            { description = "move client by dpi", group = "client" }
         ),
 
 		awful.key(
@@ -648,14 +661,8 @@ client.connect_signal("request::default_keybindings", function()
             "l",
             function(c)
 			    c:relative_move(dpi(20), 0, 0, 0)
-		    end
-        ),
-
-		--- Toggle floating
-		awful.key(
-            { modkey, ctrl },
-            "space",
-            awful.client.floating.toggle
+		    end,
+            { description = "move client by dpi", group = "client" }
         ),
 
 		--- Toggle fullscreen
@@ -665,7 +672,8 @@ client.connect_signal("request::default_keybindings", function()
             function()
                 client.focus.fullscreen = not client.focus.fullscreen
                 client.focus:raise()
-		    end
+		    end,
+            { description = "toggle full screen", group = "client" }
         ),
 
 		--- Maximize windows
@@ -711,18 +719,18 @@ client.connect_signal("request::default_keybindings", function()
         ),
 
 		--- Un-minimize windows
-		awful.key(
-            { modkey, ctrl },
-            "n",
-            function()
-                local c = awful.client.restore()
-                -- Focus restored client
-                if c then
-                    c:activate({ raise = true, context = "key.unminimize" })
-                end
-		    end,
-            { description = "restore minimized", group = "client" }
-        ),
+        awful.key({ modkey, ctrl }, "n",
+        function ()
+            naughty.notify({text="trying un-minimize window"})
+            local c = awful.client.restore()
+            -- Focus restored client
+            if c then
+              c:emit_signal(
+                  "request::activate", "key.unminimize", {raise = true}
+              )
+            end
+        end,
+        {description = "restore minimized", group = "client"}),
 
 		--- Keep on top
 		awful.key(
@@ -730,7 +738,8 @@ client.connect_signal("request::default_keybindings", function()
             "p",
             function(c)
 			    c.ontop = not c.ontop
-		    end
+		    end,
+            { description = "keep client/window on top", group = "client" }
         ),
 
 		--- Sticky
@@ -739,7 +748,8 @@ client.connect_signal("request::default_keybindings", function()
             "p",
             function(c)
 			    c.sticky = not c.sticky
-		    end
+		    end,
+            { description = "sticky client/window", group = "client" }
         ),
 
 		--- Close window
@@ -748,7 +758,8 @@ client.connect_signal("request::default_keybindings", function()
             "w",
             function()
 			    client.focus:kill()
-		    end
+		    end,
+            { description = "close client/window", group = "client" }
         ),
 
 		--- Center window
@@ -757,16 +768,8 @@ client.connect_signal("request::default_keybindings", function()
             "c",
             function()
 			    awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
-		    end
-        ),
-
-		--- Window switcher
-		awful.key(
-            { alt },
-            "Tab",
-            function()
-			    awesome.emit_signal("window_switcher::turn_on")
-		    end
+		    end,
+            { description = "center client/window", group = "client" }
         ),
 	})
 end)

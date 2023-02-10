@@ -72,6 +72,13 @@ if [ $? != 0 ]; then
     update_failed
 fi
 
+# Swap partition for systems running with LOW memory space
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+
 # Aptitude Support for solving dependencies, downgrading, upgrading, and making sure packages work
 sudo apt install -y aptitude
 if [ $? != 0 ]; then
@@ -609,6 +616,10 @@ sudo sed -ie "s/kali/root/g" /root/.config/qterminal.org/qterminal.ini
 ##################################################################################
 #********************************************************************************#
 ##################################################################################
+
+# Remove temporary swap partition
+sudo swapoff /swapfile
+sudo rm -rf /swapfile
 
 # Banner with space
 cat << EOF
