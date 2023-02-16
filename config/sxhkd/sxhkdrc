@@ -1,0 +1,205 @@
+#############################
+#         WM KEYS           #
+#############################
+
+# terminal emulator kitty
+super + Return
+	kitty
+
+# terminal emulator qterminal
+super + ctrl + Return
+	qterminal
+
+# program launcher
+super + d
+   	rofi -theme ~/.config/rofi/launcher.rasi -show drun
+
+alt + d
+	rofi -theme ~/.config/rofi/launcher.rasi -show drun
+
+# mouse right click jgmenu
+super + ~@button3
+    jgmenu
+
+# powermenu
+super + q
+    /usr/local/bin/powermenu
+    
+
+alt + q
+    /usr/local/bin/powermenu
+
+# lockscreen
+alt + shift + x
+    i3lock-fancy
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+alt + Escape
+	pkill -USR1 -x sxhkd
+
+#############################
+#         BSPWM KEYS        #
+#############################
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+ctrl + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }w
+	bspc node -{c,k}
+
+alt + {_,shift + }w
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+alt + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#############################
+#      STATE/FLAGS KEYS     #
+#############################
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+alt + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#############################
+#       FOCUS/SWAP KEYS     #
+#############################
+
+# focus the node in the given direction
+super + {_,shift + }{Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+super + bracket{h,l}
+    bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+alt + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+	
+alt + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#############################
+#      PRESELECT KEYS       #
+#############################
+
+# preselect the direction
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#############################
+#      MOVE/RESIZE KEYS     #
+#############################
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+super + {h,j,k,l}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Custom move/resize
+super + alt + {Left,Down,Up,Right}
+	~/.config/bspwm/resize {west,south,north,east}
+
+super + alt + {h,j,k,l}
+    ~/.config/bspwm/resize {west,south,north,east}
+
+#############################
+#       FEATURES KEYS       #
+#############################
+
+# Wallpaper Color Theme (Kill itself in case that's already running)
+super + alt + w
+    wallpaper-changer
+
+ctrl + alt + w
+    wallpaper-changer
+
+# GUI Wallpaper Preview Selector
+super + alt + x
+    bspc rule -a '*' -o state=floating; nsxiv -t ~/Pictures/Wallpapers/
+
+ctrl + alt + x
+    bspc rule -a '*' -o state=floating; nsxiv -t ~/Pictures/Wallpapers/
+
+# Change corners (rounded or sharp)
+super + alt + b
+    change-corners
+  
+ctrl + alt + b
+    change-corners
+
+# Screenshot Flameshot
+@Print
+    flameshot gui

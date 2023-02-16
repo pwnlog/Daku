@@ -31,7 +31,7 @@ Daku is a pen testing Linux configuration with dark colors.
 
 <table align=left><tr><td>
 <b>- Operating Systems: </b><br />
-<b>- Window Manager: </b><br />
+<b>- Window Managers: </b><br />
 <b>- Application Launcher: </b><br />
 <b>- Compositor: </b><br />
 <b>- Terminal: </b><br />
@@ -43,8 +43,8 @@ Daku is a pen testing Linux configuration with dark colors.
 </table>
 
 <table><tr><td>
-<a href="https://www.kali.org/">Kali Linux/ParrotOS</a><br />
-<a href="https://awesomewm.org">AwesomeWM</a><br />
+<a href="https://www.kali.org/" target="_blank" onclick="window.open('https://www.kali.org/'); window.open('https://www.parrotsec.org/');">Kali Linux/ParrotOS</a><br />
+<a href="https://awesomewm.org" target="_blank" onclick="window.open('https://awesomewm.org'); window.open('https://github.com/baskerville/bspwm');">AwesomeWM/BSPWM</a><br />
 <a href="https://github.com/davatorium/rofi">Rofi</a><br />
 <a href="https://github.com/yshui/picom">Picom</a><br />
 <a href="https://github.com/kovidgoyal/kitty">Kitty</a><br />
@@ -96,7 +96,7 @@ Congratulations, now you have Daku installed in your system:
 
 ![daku](assets/images/daku-welcome.png)
 
-> **Note**: You can reload `awesome` with `Super+Alt+R` also known as `Windows+Alt+R`.
+> **Note**: You can reload `awesome` with `Super+Alt+R` also known as `Windows+Alt+R`. If you are having shortcuts conflicts between your Guest VM and your Windows host, read this [guide](./GUEST-KEYBINDS-CONFLICTS.md).
 
 # :hearts: Development
 

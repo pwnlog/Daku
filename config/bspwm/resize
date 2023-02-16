@@ -1,0 +1,16 @@
+#!/usr/bin/env dash
+
+if bspc query -N -n focused.floating > /dev/null; then
+	size=20
+else
+	size=100
+fi
+
+case "$1" in
+	left) dir=right; falldir=left; x="-$size"; y=0;;
+	right) dir=right; falldir=left; x="$size"; y=0;;
+	up) dir=top; falldir=bottom; x=0; y="-$size";;
+	down) dir=top; falldir=bottom; x=0; y="$size";;
+esac
+
+bspc node -z "$dir" "$x" "$y" || bspc node -z "$falldir" "$x" "$y"

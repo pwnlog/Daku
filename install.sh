@@ -147,12 +147,17 @@ fi
 cd build
 sudo apt install -y ./*.deb
 if [ $? != 0 ]; then
-    echo "[-] Command: $RED 'sudo apt install -y ./*.deb' $RESET has failed"
-    exit
+    sudo chown -R _apt ~/Daku/awesome
+    #echo "[-] Command: $RED 'sudo apt install -y ./*.deb' $RESET has failed"
+    sudo apt install -y ./*.deb --allow-downgrades
+    if [ $? != 0 ]; then
+        echo "[-] Command: $RED 'sudo apt install -y ./*.deb' $RESET has failed"
+        exit
+    fi
 fi
 cd $CWD
 
-# AwesomeWM LightDM bug fix
+# Add AwesomeWM to xsessions 
 sudo bash -c "cat << 'EOF' >> /usr/share/xsessions/awesome.desktop
 #!/bin/bash
 [Desktop Entry]
@@ -218,6 +223,9 @@ if [ $? != 0 ]; then
     exit
 fi
 cd $CWD
+
+# Add BSPWM to xsessions
+sudo cp /usr/local/share/xsessions/bspwm.desktop /usr/share/xsessions/bspwm.desktop
 
 # Install Optional Tools
 sudo apt install -y font-manager
@@ -472,6 +480,62 @@ if [ $? != 0 ]; then
     exit
 fi
 
+# Install Tmux
+sudo apt install -y libevent-dev libncurses-dev
+wget https://github.com/tmux/tmux/releases/download/3.1c/tmux-3.1c.tar.gz -O tmux-3.1c.tar.gz 
+if [ -f "tmux-3.1c.tar.gz" ]; then
+    :
+else 
+    echo "[-] The file $RED tmux-3.1c.tar.gz $RESET was not downloaded."
+    exit
+fi
+tar -xvf tmux-3.1c.tar.gz 
+cd tmux-3.1c 
+./configure && make 
+sudo make install 
+if [ $? != 0 ]; then
+    echo -e "[-] Failed to install tmux!"
+    exit
+fi
+cd $CWD
+
+# Configure Tmux (gpakosz)
+cd $HOME
+git clone https://github.com/gpakosz/.tmux.git 
+ln -s -f .tmux/.tmux.conf 
+cp .tmux/.tmux.conf.local . 
+if [ $? != 0 ]; then
+    echo -e "[-] Failed to configure $RED tmux $RESET gpakosz!"
+    exit
+fi
+cd $CWD
+
+# Install jgmenu
+sudo apt install -y libxrandr-dev
+git clone https://github.com/johanmalm/jgmenu.git
+cd jgmenu
+sudo ./configure --prefix=/usr
+sudo make
+sudo make install
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo make install' $RESET has failed"
+    exit
+fi
+cd $CWD
+
+# Install dunst
+sudo apt install -y checkinstall libnotify-dev libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev libnotify-dev
+git clone https://github.com/dunst-project/dunst.git
+cd dunst
+sudo make
+sudo make install
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo make install' $RESET has failed"
+    exit
+fi
+sudo mv /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifications.service /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifications.service.disabled 
+cd $CWD
+
 # Install Pen Test Tools
 sudo apt install -y bloodhound neo4j powershell
 if [ $? != 0 ]; then
@@ -502,6 +566,11 @@ sudo cp -r ~/powerlevel10k/ /root
 # zshrc symlink with root user
 sudo ln -s -f ~/.zshrc /root/.zshrc
 
+# zsh Plugins
+sudo git clone https://github.com/zsh-users/zsh-autosuggestions /usr/share/zsh-autosuggestions
+sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/zsh-syntax-highlighting
+sudo git clone https://github.com/zsh-users/zsh-completions /usr/share/zsh-completions
+
 # Fix insecure zsh
 sudo chown -R root:root /usr/local/share/zsh/site-functions/_bspc &>/dev/null && sudo chmod -R 755 /usr/local/share/zsh/site-functions/_bspc &>/dev/null
 
@@ -521,6 +590,14 @@ sudo cp scripts/system/* /usr/local/bin/
 ##################################################################################
 #********************************************************************************#
 ##################################################################################
+
+# bspwm Permissions
+chmod +x ~/.config/bspwm/bspwmrc 
+chmod +x ~/.config/bspwm/resize 
+sudo chmod +x /root/.config/bspwm/bspwmrc 
+sudo chmod +x /root/.config/bspwm/resize 
+chmod +x ~/.config/sxhkd/sxhkdrc 
+suod chmod +x /root/.config/sxhkd/sxhkdrc 
 
 # Polybar permissions
 chmod -R 755 ~/.config/polybar 

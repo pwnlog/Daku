@@ -1,0 +1,88 @@
+#!/bin/sh
+
+/usr/bin/pgrep -x sxhkd > /dev/null || sxhkd &
+
+#############################
+#         WALLPAPER         #
+#############################
+
+~/.fehbg &
+xeventbind resolution ~/.fehbg &
+
+#############################
+#          POLYBAR          #
+#############################
+
+~/.config/polybar/polybar.sh --daku &
+
+#############################
+#           PICOM           #
+#############################
+
+picom --config ~/.config/picom/picom.conf -b
+
+#############################
+#           DUNST           #
+#############################
+
+dunst --config ~/.config/dunst/dunstrc &
+
+#############################
+#          VMWARE           #
+#############################
+
+vmware-user  &
+
+#############################
+#         WM FIXES          #
+#############################
+
+wmname LG3D &
+xsetroot -cursor_name left_ptr &
+
+#############################
+#         WORKSPACES        #
+#############################
+
+bspc monitor -d 1 2 3 4 5 6 7 8 9
+
+#############################
+#          WINDOWS          #
+#############################
+
+bspc config border_width 0
+bspc config focus_follows_pointer true
+bspc config pointer_modifier mod1
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+#############################
+#       MICE BINDINGS       #
+#############################
+
+# Super/Windows Key
+bspc config pointer_modifier mod4
+
+# Move floating window: Super + Left Click (Move Mice)
+bspc config pointer_action1 move
+
+# Resize floating window sides: Super + Left Click (Move Mice)
+bspc config pointer_action2 resize_side
+
+# Resize floating window corners: Super + Right Click (Move Mice)
+bspc config pointer_action3 resize_corner
+
+#############################
+#        WINDOW RULES       #
+#############################
+
+bspc rule -a mplayer2 state=floating
+
+#############################
+#    WINDOW STATE CONFIG    #
+#############################
+
+bspc rule -a Lxappearance state=floating focus=on
+bspc rule -a SimpleScreenRecorder state=floating focus=on
+bspc rule -a Nm-connection-editor state=floating focus=on
