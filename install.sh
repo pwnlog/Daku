@@ -78,6 +78,12 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
+# WM
+sudo apt-get install -y wmctrl
+if [ $? != 0 ]; then
+    echo "[-] Command: $RED 'sudo apt-get install -y wmctrl' $RESET has failed"
+    exit
+fi
 
 # Aptitude Support for solving dependencies, downgrading, upgrading, and making sure packages work
 sudo apt install -y aptitude
@@ -597,7 +603,7 @@ chmod +x ~/.config/bspwm/resize
 sudo chmod +x /root/.config/bspwm/bspwmrc 
 sudo chmod +x /root/.config/bspwm/resize 
 chmod +x ~/.config/sxhkd/sxhkdrc 
-suod chmod +x /root/.config/sxhkd/sxhkdrc 
+sudo chmod +x /root/.config/sxhkd/sxhkdrc 
 
 # Polybar permissions
 chmod -R 755 ~/.config/polybar 
@@ -640,6 +646,9 @@ sudo chmod +x /usr/local/bin/powermenu
 
 sudo chown $USER:$USER_GROUP /usr/local/bin/install-tools
 sudo chmod +x /usr/local/bin/install-tools
+
+sudo chown $USER:$USER_GROUP /usr/local/bin/polybar-wm
+sudo chmod +x /usr/local/bin/polybar-wm
 
 # Network Scripts
 sudo chown $USER:$USER_GROUP /usr/local/bin/ethernet-status

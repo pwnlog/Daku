@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+DAKU=$HOME/.config/polybar/daku/config.ini
+DAKURA=$HOME/.config/polybar/dakura/config.ini
+POLYBARS=($DAKU $DAKURA)
+
+if [ $(wmctrl -m | grep -i name | cut -d ":" -f 2) == "bspwm" ]; then
+    for BAR in ${POLYBARS[@]}; do
+        sed -ie "s/wm-restack = generic/;wm-restack = generic/g" $BAR
+        sed -ie "s/; wm-restack = bspwm/wm-restack = bspwm/g" $BAR
+    done
+elif [ $(wmctrl -m | grep -i name | cut -d ":" -f 2) == "awesome" ]; then
+    for BAR in ${POLYBARS[@]}; do
+        sed -ie "s/;wm-restack = generic/wm-restack = generic/g" $BAR
+        sed -ie "s/wm-restack = bspwm/; wm-restack = bspwm/g" $BAR
+    done
+fi

@@ -18,7 +18,7 @@ alt + d
 	rofi -theme ~/.config/rofi/launcher.rasi -show drun
 
 # mouse right click jgmenu
-super + ~@button3
+alt + ~@button3
     jgmenu
 
 # powermenu
@@ -94,10 +94,10 @@ super + ctrl + {m,x,y,z}
 
 # focus the node in the given direction
 super + {_,shift + }{Left,Down,Up,Right}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -{f,s} {left,down,up,right}
 
 super + {_,shift + }{h,j,k,l}
-    bspc node -{f,s} {west,south,north,east}
+    bspc node -{f,s} {left,down,up,right}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
@@ -140,10 +140,10 @@ alt + {_,shift + }{1-9,0}
 
 # preselect the direction
 super + ctrl + {Left,Down,Up,Right}
-	bspc node -p {west,south,north,east}
+	bspc node -p {left,down,up,right}
 
 super + ctrl + {h,j,k,l}
-    bspc node -p {west,south,north,east}
+    bspc node -p {left,down,up,right}
 
 # preselect the ratio
 super + ctrl + {1-9}
@@ -170,10 +170,10 @@ super + {h,j,k,l}
 
 # Custom move/resize
 super + alt + {Left,Down,Up,Right}
-	~/.config/bspwm/resize {west,south,north,east}
+	~/.config/bspwm/resize {left,down,up,right}
 
 super + alt + {h,j,k,l}
-    ~/.config/bspwm/resize {west,south,north,east}
+    ~/.config/bspwm/resize {left,down,up,right}
 
 #############################
 #       FEATURES KEYS       #

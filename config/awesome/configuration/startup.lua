@@ -12,6 +12,8 @@ local helpers = require("helpers")
 -- *********************************
 
 local function startup_apps()
+    -- Polybar WM Setting
+    awful.util.spawn_with_shell("/usr/local/bin/polybar-wm")
     -- Enable VMware Guest Tools
     awful.util.spawn_with_shell("vmware-user-suid-wrapper --no--startup-id")
     -- Start Picom

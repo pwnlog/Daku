@@ -13,6 +13,7 @@ xeventbind resolution ~/.fehbg &
 #          POLYBAR          #
 #############################
 
+/usr/local/bin/polybar-wm &
 ~/.config/polybar/polybar.sh --daku &
 
 #############################
