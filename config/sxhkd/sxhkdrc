@@ -179,6 +179,14 @@ super + alt + {h,j,k,l}
 #       FEATURES KEYS       #
 #############################
 
+# Activate Pywal
+super + alt + p
+	/usr/local/bin/pywal ~/Pictures/Wallpapers/cat-window-minimal-5k-yz-1920x1080.jpg
+
+# Restore Daku
+super + alt + d
+	/usr/local/bin/restore-daku
+
 # Wallpaper Color Theme (Kill itself in case that's already running)
 super + alt + w
     wallpaper-changer

@@ -682,6 +682,8 @@ mkdir -p ~/Pictures/Wallpapers
 sudo mkdir -p /root/Pictures/Wallpapers 
 cp $CWD/wallpapers/daku/* ~/Pictures/Wallpapers 
 sudo cp -r $CWD/wallpapers/daku/* /root/Pictures/Wallpapers 
+cp $CWD/wallpapers/iro/* ~/Pictures/Wallpapers 
+sudo cp -r $CWD/wallpapers/iro/* /root/Pictures/Wallpapers 
 
 # Fix wallpaper for other usernames
 sed -ie "s/kali/$USER/g" ~/.fehbg

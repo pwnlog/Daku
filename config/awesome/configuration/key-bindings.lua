@@ -163,6 +163,26 @@ awful.keyboard.append_global_keybindings({
 -- *********************************
 
 awful.keyboard.append_global_keybindings({
+    -- Activate Pywal
+    awful.key(
+        {modkey, alt },
+        "p",
+        function ()
+            awful.util.spawn_with_shell("/usr/local/bin/pywal ~/Pictures/Wallpapers/cat-window-minimal-5k-yz-1920x1080.jpg")
+        end,
+        {description = "activate pywal and change theme colors on the fly", group = "scripts"}
+    ),
+        
+    -- Restore Daku
+    awful.key(
+        {modkey, alt },
+        "d",
+        function ()
+            awful.util.spawn_with_shell("/usr/local/bin/restore-daku")
+        end,
+        {description = "restore daku theme", group = "scripts"}
+    ),
+
 	-- Wallpaper Selector Script
 	awful.key(
         {modkey, "Mod1" },
