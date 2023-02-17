@@ -15,25 +15,24 @@ STRAIGHT_COMPOSITOR="corner-radius = 0"
 STRAIGHT_BAR="radius = 0"
 ROUNDED_COMPOSITOR="corner-radius = 15.0"
 ROUNDED_BAR="radius = 10"
-
-#ROUNDED_DAKURA_L="modules-left = glyph_l search glyph_r sep glyph_l xworkspaces glyph_r sep glyph_l ethernet glyph_r sep glyph_l vpn glyph_r sep glyph_l target glyph_r"
-#ROUNDED_DAKURA_R="modules-right = glyph_l filesystem glyph_r sep glyph_l cpu glyph_r sep glyph_l memory glyph_r sep glyph_l date glyph_r sep glyph_l powermenu glyph_r"
-#STRAIGHT_DAKURA_L="modules-left =  search sep xworkspaces sep ethernet sep vpn sep target"
-#STRAIGHT_DAKURA_R="modules-right =  filesystem sep cpu sep memory sep date sep powermenu"
+ROUNDED_DAKURA_L="modules-left = glyph_l search glyph_r sep glyph_l xworkspaces glyph_r sep glyph_l ethernet glyph_r sep glyph_l vpn glyph_r sep glyph_l target glyph_r"
+ROUNDED_DAKURA_R="modules-right = glyph_l filesystem glyph_r sep glyph_l cpu glyph_r sep glyph_l memory glyph_r sep glyph_l date glyph_r sep glyph_l powermenu glyph_r"
+STRAIGHT_DAKURA_L="modules-left =  search sep xworkspaces sep ethernet sep vpn sep target"
+STRAIGHT_DAKURA_R="modules-right =  filesystem sep cpu sep memory sep date sep powermenu"
 
 function straight_or_rounded(){
 	# Straight
 	if echo $COM_CORNER $BAR_CORNER | grep -qE 'corner-radius = 15|radius = 10'; then
 		sed -ie "s/$ROUNDED_COMPOSITOR/$STRAIGHT_COMPOSITOR/g" $COMPOSITOR
         sed -ie "s/$ROUNDED_BAR/$STRAIGHT_BAR/g" $BAR
-		#sed -ie "s/$ROUNDED_DAKURA_L/$STRAIGHT_DAKURA_L/g" $COMPOSITOR
-        #sed -ie "s/$ROUNDED_DAKURA_R/$STRAIGHT_DAKURA_R/g" $BAR
+		sed -ie "s/$ROUNDED_DAKURA_L/$STRAIGHT_DAKURA_L/g" $BAR
+        sed -ie "s/$ROUNDED_DAKURA_R/$STRAIGHT_DAKURA_R/g" $BAR
 	# Rounded
 	else
 		sed -ie "s/$STRAIGHT_COMPOSITOR/$ROUNDED_COMPOSITOR/g" $COMPOSITOR
         sed -ie "s/$STRAIGHT_BAR/$ROUNDED_BAR/g" $BAR
-		#sed -ie "s/$STRAIGHT_DAKURA_L/$ROUNDED_DAKURA_L/g" $COMPOSITOR
-        #sed -ie "s/$STRAIGHT_DAKURA_R/$ROUNDED_DAKURA_R/g" $BAR
+		sed -ie "s/$STRAIGHT_DAKURA_L/$ROUNDED_DAKURA_L/g" $BAR
+        sed -ie "s/$STRAIGHT_DAKURA_R/$ROUNDED_DAKURA_R/g" $BAR
 	fi	
 }
 
